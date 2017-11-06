@@ -1,18 +1,22 @@
 sudo: false
+
 language: node_js
+
 node_js:
   - 8
+
 cache:
   yarn: true
   directories:
     - node_modules
+
 before_install:
   - sudo apt-get update -qq
-  - export PATH="./bin:$PATH"
   - alias hex="node ./bin/hex.js"
   - yarn && yarn build
 
 after_success:
   - yarn send-coverage
+
 os:
   - osx
