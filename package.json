@@ -1,0 +1,56 @@
+{
+    "name": "hexinpkg",
+    "version": "0.1.0",
+    "description": "Manage multirepos as private packages",
+    "main": "src/index.js",
+    "author": "BSS <info@bpmsoasolutions.com>",
+    "preferGlobal": true,
+    "bin": {
+        "hex": "./bin/hex.js",
+        "hexpkg": "./bin/hex.js"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "chalk": "^2.3.0",
+        "commander": "^2.11.0",
+        "inquirer": "^3.3.0",
+        "ora": "^1.3.0",
+        "shelljs": "^0.7.8",
+        "tslib": "^1.8.0",
+        "update-notifier": "^2.3.0"
+    },
+    "devDependencies": {
+        "@types/node": "^8.0.34",
+        "ava": "^0.23.0",
+        "concurrently": "^3.5.0",
+        "multiview": "^2.5.3",
+        "nyc": "^11.3.0",
+        "trash-cli": "^1.4.0",
+        "tslint": "^5.4.2",
+        "tslint-config-standard": "^6.0.0",
+        "typescript": "^2.3.3"
+    },
+    "scripts": {
+        "build": "trash build && tsc -p tsconfig.json",
+        "watch": "tsc -p tsconfig.json -w",
+        "watch:tests": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'ava --watch'",
+        "unit": "yarn build && nyc ava",
+        "check-coverage": "nyc check-coverage --lines 100 --functions 100 --branches 100",
+        "test": "yarn lint && yarn unit && yarn check-coverage",
+        "cov": "yarn unit && yarn html-coverage && opn coverage/index.html",
+        "html-coverage": "nyc report --reporter=html"
+    },
+    "nyc": {
+        "exclude": [
+            "**/*.spec.js"
+        ]
+    },
+    "ava": {
+        "files": [
+            "build/**/*.spec.js"
+        ],
+        "source": [
+            "build/**/*"
+        ]
+    }
+}
