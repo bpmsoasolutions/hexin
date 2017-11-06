@@ -4,5 +4,14 @@ node_js:
   - 8
   - 6
   - 4
+cache:
+  yarn: true
+  directories:
+    - node_modules
+before_install:
+  - yarn install && yarn build
+  - alias hex="node ./bin/hex.js"
 after_success:
   - yarn send-coverage
+os:
+  - linux
