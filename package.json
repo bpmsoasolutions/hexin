@@ -36,8 +36,8 @@
         "watch": "tsc -p tsconfig.json -w",
         "watch:tests": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'ava --watch'",
         "unit": "yarn build && nyc ava",
-        "check-coverage": "nyc check-coverage --lines 100 --functions 100 --branches 100",
-        "test": "yarn lint && yarn unit && yarn check-coverage",
+        "check-coverage": "nyc check-coverage --lines 50 --functions 50 --branches 50",
+        "test": "yarn unit && yarn check-coverage",
         "cov": "yarn unit && yarn html-coverage && opn coverage/index.html",
         "html-coverage": "nyc report --reporter=html"
     },
