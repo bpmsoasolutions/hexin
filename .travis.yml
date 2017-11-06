@@ -7,7 +7,9 @@ cache:
   directories:
     - node_modules
 before_install:
-  - yarn install && yarn build
+  - sudo apt-get update -qq
+  - yarn install
+  - yarn build
   - alias hex="node ./bin/hex.js"
 after_success:
   - yarn send-coverage
