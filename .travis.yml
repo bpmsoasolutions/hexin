@@ -8,12 +8,11 @@ cache:
     - node_modules
 before_install:
   - sudo apt-get update -qq
-  - yarn install
-  - yarn build
+  - export PATH="./bin:$PATH"
   - alias hex="node ./bin/hex.js"
-install:
- - export PATH="./bin:$PATH"
+  - yarn && yarn build
+
 after_success:
   - yarn send-coverage
 os:
-  - linux
+  - osx
