@@ -35,7 +35,7 @@ test('Should append', async t => {
         '* @bss/utils 1.0.0'
     ]
 
-    let output = await spawn('.', 'hex', 'append', repoUrl)
+    let output = await spawn('.', 'node bin/hex.js', 'append', repoUrl)
     output = output.reverse().slice(1).reverse()
 
     t.deepEqual(output.slice(0, 2), expectedOutput.slice(0, 2))
@@ -54,7 +54,7 @@ test('Should append', async t => {
         `* @bss/utils 1.0.0`
     ]
 
-    output = await spawn('.', 'hex', 'append', repoUrl)
+    output = await spawn('.', 'node bin/hex.js', 'append', repoUrl)
     t.deepEqual(output.reverse().slice(1).reverse(), expectedOutput)
 
     t.true(shell.test('-d', repoPath))

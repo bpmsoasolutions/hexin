@@ -29,14 +29,14 @@ test('Test cmd', async t => {
 
     shell.rm('-rf', HEX_PATH())
 
-    let output = await spawn('.', 'hex')
+    let output = await spawn('.', 'node bin/hex.js')
         .then(output=>output, err=>err)
         .catch((err)=>err)
 
     t.deepEqual(output, [`No hexin config, creating one.`].concat(outputExpected))
 
 
-    output = await spawn('.', 'hex')
+    output = await spawn('.', 'node bin/hex.js')
         .then(output=>output, err=>err)
         .catch((err)=>err)
 
