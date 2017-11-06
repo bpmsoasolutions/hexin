@@ -6,11 +6,15 @@ import { spawn, output } from './'
 
 
 export const getGitFolder = (str:string): string => {
-    var pattern = new RegExp(`\/(.*?)\.git`,'i')
-    if (!pattern.exec(str)){
+    let last = str.split('/').reverse()[0]
+    let pattern = new RegExp(`\(.*?)\\.git`,'i')
+    let result = pattern.exec(last)
+
+    if (!result || result[1] === ''){
         throw `this is not a correct git repo url '${str}'`
     }
-    return pattern.exec(str)[1]
+
+    return pattern.exec(last)[1]
 }
 
 export const gitGetTag = (pathToDir?) =>
@@ -38,8 +42,8 @@ export const pushTag = (tag, pathToDir?) =>
 export const gitPull = (pathToDir?) =>
     spawn(pathToDir, 'git', 'pull')
 
-export const gitClone = (url, pathToDir?) =>
-    spawn(pathToDir, 'git', 'clone', url)
+export const gitClone = (url, destination, pathToDir?) =>
+    spawn(pathToDir, 'git', 'clone', url, destination)
 
 export const gitCheckout = (str, pathToDir?) =>
     spawn(pathToDir, 'git', 'checkout', str)

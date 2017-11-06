@@ -12,6 +12,7 @@ import { getGitFolder, gitPull, gitClone, readJSON, writeJSON, spawn, output, er
 
 export const append = async (CWD, gitUrlRepo) => {
     let folder = getGitFolder(gitUrlRepo)
+
     let repoPath = path.join(HEX_PATH_CACHE(), folder)
 
     if (shell.test('-d', repoPath)) {

@@ -28,7 +28,7 @@ let CWD = process.cwd()
 
 program
     .version(pkg.version)
-    .description(`${chalk.green.bold('[核心 - Hexin ]')} Manage multirepos as packages`)
+    .description(`${chalk.green.bold('[核心 - Hexin ]')} Manage monorepos as private packages`)
     .option('--test', 'Test environment mode')
 
 if (process.argv.indexOf('--test') > 0) {

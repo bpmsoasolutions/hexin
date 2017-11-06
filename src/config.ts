@@ -10,10 +10,14 @@ export class Config {
         process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']
 
     HEX_PATH = ():string => path.join(this.HOME_PATH, this.HEX_DIR)
-    HEX_CONFIG_PATH = ():string => path.join(this.HOME_PATH, this.HEX_DIR, this.HEX_FILE)
-    HEX_PATH_CACHE = ():string => path.join(this.HOME_PATH, this.HEX_DIR, 'cache')
 
-    hexPath = (...dirs):string => path.resolve(this.HEX_PATH, ...dirs)
+    hexPath = (...dirs):string => path.resolve(this.HEX_PATH(), ...dirs)
+
+    HEX_CONFIG_PATH = ():string => this.hexPath(this.HEX_FILE)
+
+    HEX_PATH_CACHE = (...dirs):string => dirs.length > 0
+        ? this.hexPath(...['cache'].concat(dirs))
+        : this.hexPath('cache')
 
     setTestHome = () => {
         this.HEX_DIR = this.HEX_DIR_TEST
