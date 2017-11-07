@@ -1,6 +1,6 @@
 export * from './exec'
 export * from './isUrl'
-export * from './Git'
+export * from './git'
 export * from './fs'
 export * from './initHexinFolder'
 export * from './spawn'

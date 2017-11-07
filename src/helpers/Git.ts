@@ -4,7 +4,6 @@ import * as  util from 'util'
 
 import { spawn, output } from './'
 
-
 export const getGitFolder = (str:string): string => {
     let last = str.split('/').reverse()[0]
     let pattern = new RegExp(`\(.*?)\\.git`,'i')
