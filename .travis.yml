@@ -11,14 +11,13 @@ cache:
     - node_modules
 
 before_install:
-  - ls -l
   - alias hex="node ./bin/hex.js"
-  - yarn && yarn build
-  - yarn link
   - export PATH=$PATH:"./bin"
+
+install:
+  - yarn install
+  - yarn build
+  - yarn link
 
 after_success:
   - yarn send-coverage
-
-os:
-  - osx
