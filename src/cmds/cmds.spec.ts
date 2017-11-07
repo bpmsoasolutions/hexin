@@ -58,7 +58,7 @@ test('Should append', async function (t) {
     let output = await spawn(null, 'hex', 'append', repoUrl)
     output = output.reverse().slice(1).reverse()
 
-    t.deepEqual(output.slice(0, 3), [`No hexin config, creating one.`].concat(expectedOutput.slice(0, 3)))
+    t.deepEqual(output.slice(0, 3), [`No hexin config, creating one.`].concat(expectedOutput.slice(0, 2)))
     t.deepEqual(output.slice(4, 7), expectedOutput.slice(4, 7))
     t.true(shell.test('-d', repoPath))
 
