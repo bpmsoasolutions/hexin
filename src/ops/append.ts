@@ -29,6 +29,13 @@ export const append = async (CWD, gitUrlRepo) => {
     let packagesArray: {name: string, version: string, private: Boolean}[]
 
     try {
+
+        console.log('--')
+        console.log(packages)
+        console.log('--')
+        console.log(cleanFromYarnCMD(packages))
+        console.log('--')
+
         packagesArray = JSON.parse(cleanFromYarnCMD(packages))
     } catch(err){
         throw `Cant parse output from 'yarn run lerna ls --json. ${err}`
