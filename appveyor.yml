@@ -13,6 +13,7 @@ install:
   - ps: Install-Product node $env:node_version
   - yarn install --frozen-lockfile
   - yarn link
+  - npm link
 
 build_script:
   - yarn run build
