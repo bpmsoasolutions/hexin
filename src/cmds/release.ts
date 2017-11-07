@@ -1,9 +1,8 @@
-import { createCmd } from '../helpers'
 import { release } from '../ops/release'
 
-export const releaseCmd = createCmd(
-    'release',
-    '<env> [type]',
-    'Add new version to the releases branch',
-    release
-).commander
+export const releaseCmd = {
+    name: 'release',
+    params: '<env> [type]',
+    description:'Add new version to the releases branch',
+    action: release
+}

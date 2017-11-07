@@ -1,7 +1,7 @@
 {
     "name": "hexinpkg",
     "version": "0.1.1",
-    "description": "Manage multirepos as private packages",
+    "description": "Manage monorepos as private packages",
     "main": "src/index.js",
     "author": "BSS <info@bpmsoasolutions.com>",
     "homepage": "https://github.com/bpmsoasolutions/hexin",

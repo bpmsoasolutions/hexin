@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import {packageJson} from './'
+
 export const output = (...msg) => {
     console.log(...msg)
 }

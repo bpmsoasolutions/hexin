@@ -2,7 +2,6 @@ import * as path from 'path'
 
 export class Config {
     HEX_DIR: string = '.hexin'
-    HEX_DIR_TEST: string = '.hexin_test'
     HEX_FILE: string = 'config.json'
     HEX_DEPS: string = 'hexDependencies'
 
@@ -19,8 +18,8 @@ export class Config {
         ? this.hexPath(...['cache'].concat(dirs))
         : this.hexPath('cache')
 
-    setTestHome = () => {
-        this.HEX_DIR = this.HEX_DIR_TEST
+    setTestHome = (name) => {
+        this.HEX_DIR = name
     }
 }
 

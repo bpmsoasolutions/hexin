@@ -7,7 +7,7 @@
         "module": "commonjs",
         "declaration": true,
         "importHelpers": true,
-        "inlineSourceMap": false,
+        "inlineSourceMap": true,
         "listFiles": false,
         "traceResolution": false,
         "strictNullChecks": false,

@@ -1,9 +1,8 @@
-import { createCmd } from '../helpers'
 import { unrelease } from '../ops/unrelease'
 
-export const unreleaseCmd = createCmd(
-    'unrelease',
-    '',
-    'Remove specific tags',
-    unrelease
-).commander
+export const unreleaseCmd = {
+    name: 'unrelease',
+    params: '',
+    description: 'Remove specific tags',
+    action: unrelease
+}

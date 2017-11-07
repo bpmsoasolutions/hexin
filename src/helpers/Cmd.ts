@@ -1,67 +1,95 @@
 import chalk from 'chalk'
+import * as program from 'commander'
+import * as shell from 'shelljs'
+import * as fs from 'fs'
 
-export class Command {
+import config from '../config'
+import { exec } from '../helpers'
+
+export class Cli {
+    CWD: string
+    P: typeof program
+    opts: string[][]
+    executed: boolean = false
+    startTime: Date
     version: string
-    name: string
-    params: string
-    description: string
-    action: Function
+    error: string | null = null
 
-    start: Date
-
-    constructor(name, params, description, action) {
-        this.name = name
-        this.params = params
-        this.description = description
-        this.action = action
+    constructor(CWD) {
+        this.CWD = CWD
+        this.P = program
+        return this
     }
 
-    outputErr = (...msg) => {
-        let message = `Error ${msg.join(' ')}`
-        console.log(`${chalk.red(message)}`)
-        this.onEnd()
+    define(name, description, version, ...options) {
+        this.version = version
+
+        this.P
+            .version(version)
+            .description(`${chalk.green.bold(name)} ${chalk.white.bold('v' + version)} ${description}`)
+
+        options.forEach(opt =>
+            this.P.option(...opt.split('|'))
+        )
+        return this
     }
 
-    onStart = () => {
-        this.start = new Date()
-        console.log(`${chalk.green.bold('核心 hexin')} ${chalk.bold(this.name)} ${chalk.bold('v' +  this.version)}`)
+    exec = () => {
+        this.executed = true
     }
 
-    onEnd = () => {
+    _onStart(name){
+        this.startTime = new Date()
+        console.log(`${chalk.green.bold('核心 hexin')} ${chalk.bold(name)} ${chalk.bold('v' +  this.version)}`)
+    }
+
+    _onEnd(...err) {
         let now = new Date()
-        let secs = ((now as any) - (this.start as any)) / 100
-        console.log(`Complete ${chalk.bold(secs.toString())}s`)
+        let secs = ((now as any) - (this.startTime as any)) / 100
+
+        let msg = ''
+        if (err.length > 0) {
+            msg = `Error ${chalk.red(err.join(' '))}`
+            this.error = msg
+        } else {
+            msg = `Complete`
+        }
+
+        console.log(`${msg} ${chalk.bold(secs.toString())}s`)
     }
 
-    commander = (program, exec, CWD) => {
-        this.version = program._version
-        return program
-            .command(`${this.name} ${this.params}`)
-            .description(this.description)
-            .action((...args) => {
-                this.onStart()
+    addCmd({name, params, description, action}) {
+        this.P
+            .command(`${name} ${params}`)
+            .description(description)
+            .action(async (...args) => {
+                this.exec()
+                this._onStart(name)
 
+                try {
+                    await action(this.CWD, ...args)
+                    this._onEnd()
+                    process.exit(0)
+                } catch(err){
+                    this._onEnd(err)
+                    process.exit(1)
+                }
 
-                this.action(CWD, ...args)
-                    .then(
-                        ()=> {
-                            this.onEnd()
-                        },
-                        error => {
-                            this.outputErr(error)
-                        }
-                    )
-                    .catch(error => {
-                        this.outputErr(error)
-                    })
-
-                exec.on()
             })
+
+        return this
+    }
+
+    start(){
+        this.P.parse(process.argv)
+
+        if (!this.executed) {
+            this.P.outputHelp()
+            process.exit(1)
+        }
     }
 }
 
-
-export function createCmd(name, params, description, action) {
-    let CMD = new Command(name, params, description, action)
-    return CMD
+export function createCLI(CWD): Cli {
+    return new Cli(CWD)
 }

@@ -1,46 +1,21 @@
-import * as program from 'commander'
 import * as updateNotifier from 'update-notifier'
-import * as shell from 'shelljs'
-import * as path from 'path'
-import * as json from 'jsonfile'
-import chalk from 'chalk'
 
-import * as CMDS from './cmds'
-import config from './config'
-import { exec, output, err, initHexinFolder, packageJson } from './helpers'
-
-const {
-    HEX_DIR,
-    HOME_PATH,
-    HEX_CONFIG_PATH,
-    HEX_PATH,
-    HEX_PATH_CACHE
-} = config
-
+import { addCmd, appendCmd, bootstrapCmd, cleanCmd, releaseCmd, unreleaseCmd} from './cmds'
+import { packageJson, createCLI } from './helpers'
 
 updateNotifier({ pkg: packageJson }).notify()
 
-let CWD = process.cwd()
-
-program
-    .version(packageJson.version)
-    .description(`${chalk.green.bold(`[ 核心 - Hexin ]`)} ${chalk.white.bold('v' + packageJson.version)} Manage monorepos as private packages `)
-    .option('--test', 'Test environment mode')
-
-if (process.argv.indexOf('--test') > 0) {
-    config.setTestHome()
-}
-
-initHexinFolder()
-
-Object.keys(CMDS)
-    .forEach(k => {
-        CMDS[k].call(null, program, exec, CWD)
-    })
-
-program.parse(process.argv)
-
-if (!exec.is()) {
-    program.outputHelp()
-    process.exit(1)
-}
+createCLI(process.cwd())
+    .define(
+        `[ 核心 - Hexin ]`,
+        'Manage monorepos as private packages',
+        packageJson.version,
+        '--test <name>|Test environment mode, this change the .hexin folder, usefull for paralelize tests'
+    )
+    .addCmd(addCmd)
+    .addCmd(appendCmd)
+    .addCmd(bootstrapCmd)
+    .addCmd(cleanCmd)
+    .addCmd(releaseCmd)
+    .addCmd(unreleaseCmd)
+    .start()

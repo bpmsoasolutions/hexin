@@ -1,9 +1,8 @@
-import { createCmd } from '../helpers'
 import { clean } from '../ops/clean'
 
-export const cleanCmd = createCmd(
-    'clean',
-    '',
-    'Clean directories and package json',
-    clean
-).commander
+export const cleanCmd = {
+    name: 'clean',
+    params: '',
+    description: 'Clean directories and package json',
+    action: clean
+}
