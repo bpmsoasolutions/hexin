@@ -8,7 +8,7 @@ const {
     HEX_PATH_CACHE, HEX_CONFIG_PATH
 } = config
 
-import { getGitFolder, gitPull, gitClone, readJSON, writeJSON, spawn, output, err, readPackagesOfFolder } from '../helpers'
+import { getGitFolder, gitPull, gitClone, readJSON, writeJSON, spawn, output, err, readPackagesOfFolder, cleanFromYarnCMD } from '../helpers'
 
 export const append = async (CWD, gitUrlRepo) => {
     let folder = getGitFolder(gitUrlRepo)
@@ -26,7 +26,13 @@ export const append = async (CWD, gitUrlRepo) => {
     await spawn(repoPath, 'yarn')
     await spawn(repoPath, 'yarn', 'run', 'lerna', 'bootstrap')
     let packages: string = await spawn(repoPath, 'yarn', 'run', 'lerna', 'ls', '--json')
-    let packagesArray: {name: string, version: string, private: Boolean}[] = JSON.parse(packages.split('\n').slice(1).join(' '))
+    let packagesArray: {name: string, version: string, private: Boolean}[]
+
+    try {
+        packagesArray = JSON.parse(cleanFromYarnCMD(packages))
+    } catch(err){
+        throw `Cant parse output from 'yarn run lerna ls --json. ${err}`
+    }
 
     let cfg = await readJSON(HEX_CONFIG_PATH())
 
