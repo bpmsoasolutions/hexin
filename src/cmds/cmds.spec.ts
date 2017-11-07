@@ -3,7 +3,7 @@ import * as shell from 'shelljs'
 import { test } from 'ava'
 
 import { spawn } from '../helpers/spawn-test'
-import { getGitFolder, packageJson } from '../helpers'
+import { getGitFolder, packageJson, writeJSON } from '../helpers'
 
 import config from '../config'
 
@@ -91,14 +91,15 @@ let addExpectedHexPackages = {
 test('Should add package', async function (t) {
     shell.rm('-rf', pathTest())
     shell.mkdir(pathTest())
-    await spawn(null, 'git clone', repoUrlProject, pathTest('hexin-project-test'))
+    shell.mkdir(pathTest('test'))
+    await writeJSON(pathTest('test', 'package.json'), {})
 
     // First time
-    let output = await spawn(pathTest('hexin-project-test'), 'hex', 'add', '@bss/utils')
+    let output = await spawn(pathTest('test'), 'hex', 'add', '@bss/utils')
 
     t.deepEqual(output.reverse().slice(2).reverse(), addOutput)
 
-    let packageJSON = require(pathTest('hexin-project-test', 'package.json'))
+    let packageJSON = require(pathTest('test', 'package.json'))
 
     t.deepEqual(addExpectedHexPackages['hexDependencies'], packageJSON['hexDependencies'])
 })
