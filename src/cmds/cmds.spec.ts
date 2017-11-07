@@ -2,19 +2,28 @@ import * as path from 'path'
 import * as shell from 'shelljs'
 import { test } from 'ava'
 
-import { spawn } from './helpers/spawn-test'
-import { getGitFolder, packageJson } from './helpers'
+import { spawn } from '../helpers/spawn-test'
+import { getGitFolder, packageJson } from '../helpers'
 
-import config from './config'
+import config from '../config'
 
 const {
     HEX_PATH_CACHE, HEX_CONFIG_PATH
 } = config
 
-const firstLine = `核心 hexin append v${packageJson.version}`
+// Repositories for tests
 const repoUrl = 'https://github.com/bpmsoasolutions/hexin-modules-test.git'
+const repoUrlProject = 'https://github.com/bpmsoasolutions/hexin-project-test.git'
+
+// Tests Paths
+const testHome = path.resolve('_test')
+const pathTest = (...dirs) => path.join(testHome, ...dirs)
 const folder = getGitFolder(repoUrl)
 const repoPath = HEX_PATH_CACHE(folder)
+
+// CLI output Test
+const firstLine = (operation) => `核心 hexin ${operation} v${packageJson.version}`
+
 
 let firstTime = [
     'Repo not exists, cloning...',
@@ -28,7 +37,7 @@ let secondTime = [
 
 const expectedOutputFn = () =>
     [
-        firstLine,
+        firstLine('append'),
         ...shell.test('-d', repoPath)
             ? secondTime
             : firstTime,
@@ -63,3 +72,35 @@ test('Should append', async function (t) {
     t.deepEqual(output.reverse().slice(1).reverse(), expectedOutput)
     t.true(shell.test('-d', repoPath))
 })
+
+let addOutput = [
+    firstLine('add'),
+    'Adding module (bss) utils latest',
+    'Checking if it is installed locally',
+    'Adding dependency to package.json',
+    // 'Saved: .../_test/hexin-project-test/package.json',
+]
+
+let addExpectedHexPackages = {
+    "hexDependencies": {
+        "https://github.com/bpmsoasolutions/hexin-modules-test.git": {
+            "@bss/utils": "1.0.0"
+        }
+    }
+}
+
+test('Should add package', async function (t) {
+    shell.rm('-rf', pathTest())
+    shell.mkdir(pathTest())
+    await spawn(null, 'git clone', repoUrlProject, pathTest('hexin-project-test'))
+
+    // First time
+    let output = await spawn(pathTest('hexin-project-test'), 'hex', 'add', '@bss/utils')
+
+    t.deepEqual(output.reverse().slice(2).reverse(), addOutput)
+
+    let packageJSON = require(pathTest('hexin-project-test', 'package.json'))
+
+    t.deepEqual(addExpectedHexPackages['hexDependencies'], packageJSON['hexDependencies'])
+})
+
