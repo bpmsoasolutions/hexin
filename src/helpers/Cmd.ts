@@ -58,11 +58,31 @@ export class Cli {
         console.log(`${msg} ${chalk.bold(secs.toString())}s`)
     }
 
+    _initCLIFS(program){
+        if (program.test) {
+            config.setTestHome(program.test)
+        }
+
+        if (!shell.test('-d', config.HEX_PATH())) {
+            shell.mkdir(config.HEX_PATH())
+        }
+
+        if (!shell.test('-d', config.HEX_PATH_CACHE())) {
+            shell.mkdir(config.HEX_PATH_CACHE())
+        }
+
+        if (!shell.test('-e', config.HEX_CONFIG_PATH())) {
+            console.log('No hexin config, creating one.')
+            fs.writeFileSync(config.HEX_CONFIG_PATH(), '{}')
+        }
+    }
+
     addCmd({name, params, description, action}) {
         this.P
             .command(`${name} ${params}`)
             .description(description)
             .action(async (...args) => {
+                this._initCLIFS(this.P)
                 this.exec()
                 this._onStart(name)
 
@@ -84,6 +104,7 @@ export class Cli {
         this.P.parse(process.argv)
 
         if (!this.executed) {
+            this._initCLIFS(this.P)
             this.P.outputHelp()
             process.exit(1)
         }

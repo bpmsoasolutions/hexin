@@ -13,7 +13,7 @@ test('Test cmd', async t => {
         `[ 核心 - Hexin ] v${packageJson.version} Manage monorepos as private packages`,
         `Options:`,
         `-V, --version  output the version number`,
-        `--test         Test environment mode`,
+        `--test <name>  Test environment mode, this change the .hexin folder, usefull for paralelize tests`,
         `-h, --help     output usage information`,
         `Commands:`,
         `add <name>             Add package "add <name>" or "add [<@scope>/]<name>" or "add [<@scope>/]<name>@<version>"`,
