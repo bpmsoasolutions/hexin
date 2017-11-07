@@ -25,7 +25,7 @@ export const append = async (CWD, gitUrlRepo) => {
 
     await spawn(repoPath, 'yarn')
     await spawn(repoPath, 'yarn', 'run', 'lerna', 'bootstrap')
-    let packages: string = await spawn(repoPath, 'lerna', 'ls', '--json')
+    let packages: string = await spawn(repoPath, 'yarn', 'run', 'lerna', 'ls', '--json')
     let packagesArray: {name: string, version: string, private: Boolean}[] = JSON.parse(packages.split('\n').slice(1).join(' '))
 
     let cfg = await readJSON(HEX_CONFIG_PATH())
