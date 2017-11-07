@@ -3,12 +3,11 @@ import * as updateNotifier from 'update-notifier'
 import * as shell from 'shelljs'
 import * as path from 'path'
 import * as json from 'jsonfile'
-
 import chalk from 'chalk'
 
-import * as PKG from '../package.json'
+import * as CMDS from './cmds'
 import config from './config'
-import { exec, output, err, initHexinFolder } from './helpers'
+import { exec, output, err, initHexinFolder, packageJson } from './helpers'
 
 const {
     HEX_DIR,
@@ -18,17 +17,14 @@ const {
     HEX_PATH_CACHE
 } = config
 
-import * as CMDS from './cmds'
 
-const pkg: any = PKG
-
-updateNotifier({ pkg }).notify()
+updateNotifier({ pkg: packageJson }).notify()
 
 let CWD = process.cwd()
 
 program
-    .version(pkg.version)
-    .description(`${chalk.green.bold('[核心 - Hexin ]')} Manage monorepos as private packages`)
+    .version(packageJson.version)
+    .description(`${chalk.green.bold(`[ 核心 - Hexin ]`)} ${chalk.white.bold('v' + packageJson.version)} Manage monorepos as private packages `)
     .option('--test', 'Test environment mode')
 
 if (process.argv.indexOf('--test') > 0) {

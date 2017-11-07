@@ -2,18 +2,15 @@ import * as shell from 'shelljs'
 
 import { test } from 'ava'
 import { spawn } from './helpers/spawn-test'
+import { packageJson } from './helpers'
 
 import config from './config'
-
-const {
-    HEX_PATH
-} = config
 
 test('Test cmd', async t => {
 
     let outputExpected = [
         `Usage: hex [options] [command]`,
-        `[核心 - Hexin ] Manage monorepos as private packages`,
+        `[ 核心 - Hexin ] v${packageJson.version} Manage monorepos as private packages`,
         `Options:`,
         `-V, --version  output the version number`,
         `--test         Test environment mode`,
@@ -27,18 +24,24 @@ test('Test cmd', async t => {
         `clean                  Clean directories and package json`
     ]
 
-    shell.rm('-rf', HEX_PATH())
+    await spawn(null, 'trash', config.HEX_PATH())
 
-    let output = await spawn('.', 'node bin/hex.js')
+    let output = await spawn('.', 'hex')
         .then(output=>output, err=>err)
         .catch((err)=>err)
 
     t.deepEqual(output, [`No hexin config, creating one.`].concat(outputExpected))
 
 
-    output = await spawn('.', 'node bin/hex.js')
+    output = await spawn('.', 'hex')
         .then(output=>output, err=>err)
         .catch((err)=>err)
+
+    t.deepEqual(output, outputExpected)
+
+    output = await spawn('.', 'hex')
+    .then(output=>output, err=>err)
+    .catch((err)=>err)
 
     t.deepEqual(output, outputExpected)
 })

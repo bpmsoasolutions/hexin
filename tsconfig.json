@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "target": "es5",
         "outDir": "build",
         "rootDir": "src",
         "moduleResolution": "node",
         "module": "commonjs",
         "declaration": true,
         "importHelpers": true,
-        "inlineSourceMap": true,
+        "inlineSourceMap": false,
         "listFiles": false,
         "traceResolution": false,
         "strictNullChecks": false,

@@ -21,7 +21,7 @@
         "update-notifier": "^2.3.0"
     },
     "devDependencies": {
-        "@types/node": "^8.0.34",
+        "@types/node": "^8.0.49",
         "ava": "^0.23.0",
         "concurrently": "^3.5.0",
         "multiview": "^2.5.3",
@@ -29,13 +29,13 @@
         "trash-cli": "^1.4.0",
         "tslint": "^5.4.2",
         "tslint-config-standard": "^6.0.0",
-        "typescript": "^2.3.3"
+        "typescript": "^2.6.1"
     },
     "scripts": {
         "build": "trash build && tsc -p tsconfig.json",
         "watch": "tsc -p tsconfig.json -w",
-        "watch:tests": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'ava --watch'",
-        "unit": "yarn build && nyc ava",
+        "watch:tests": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'ava -s --watch'",
+        "unit": "yarn build && nyc ava -s",
         "check-coverage": "nyc check-coverage --lines 50 --functions 50 --branches 50",
         "test": "yarn unit && yarn check-coverage",
         "cov": "yarn unit && yarn html-coverage && opn coverage/index.html",
