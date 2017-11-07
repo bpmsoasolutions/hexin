@@ -15,6 +15,7 @@ before_install:
   - alias hex="node ./bin/hex.js"
   - yarn && yarn build
   - yarn link
+  - export PATH=$PATH:"./bin"
 
 after_success:
   - yarn send-coverage
