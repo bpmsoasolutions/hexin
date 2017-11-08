@@ -1,4 +1,4 @@
 export const outputPaths = (...dirs) =>
-    process.env['win32']
+    process.platform === 'win32'
         ? dirs.join('\\\\')
         : dirs.join('/')
