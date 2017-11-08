@@ -1,4 +1,3 @@
-export * from './exec'
 export * from './isUrl'
 export * from './git'
 export * from './fs'

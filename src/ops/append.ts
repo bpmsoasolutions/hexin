@@ -1,6 +1,7 @@
 import * as shell from 'shelljs'
 import * as path from 'path'
 import * as json from 'jsonfile'
+import * as ora from 'ora'
 
 import config from '../config'
 
@@ -11,6 +12,7 @@ const {
 import { getGitFolder, gitPull, gitClone, readJSON, writeJSON, spawn, output, err, readPackagesOfFolder } from '../helpers'
 
 export const append = async (CWD, gitUrlRepo) => {
+    let spinner = ora('').start()
     let folder = getGitFolder(gitUrlRepo)
 
     let repoPath = path.join(HEX_PATH_CACHE(), folder)

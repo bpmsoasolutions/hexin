@@ -4,7 +4,7 @@ import * as shell from 'shelljs'
 import * as fs from 'fs'
 
 import config from '../config'
-import { exec } from '../helpers'
+import { header } from '../helpers'
 
 export class Cli {
     CWD: string
@@ -26,7 +26,7 @@ export class Cli {
 
         this.P
             .version(version)
-            .description(`${chalk.green.bold(name)} ${chalk.white.bold('v' + version)} ${description}`)
+            .description(`${chalk.green.bold(name)} ${chalk.white.bold(`v${version}`)} ${description}`)
 
         options.forEach(opt =>
             this.P.option(...opt.split('|'))
@@ -40,7 +40,7 @@ export class Cli {
 
     _onStart(name){
         this.startTime = new Date()
-        console.log(`${chalk.green.bold('核心 hexin')} ${chalk.bold(name)} ${chalk.bold('v' +  this.version)}`)
+        console.log(header(name))
     }
 
     _onEnd(...err) {
@@ -59,8 +59,8 @@ export class Cli {
     }
 
     _initCLIFS(program){
-        if (program.test) {
-            config.setTestHome(program.test)
+        if (program.home) {
+            config.setTestHome(program.home)
         }
 
         if (!shell.test('-d', config.HEX_PATH())) {
@@ -73,7 +73,7 @@ export class Cli {
 
         if (!shell.test('-e', config.HEX_CONFIG_PATH())) {
             console.log('No hexin config, creating one.')
-            fs.writeFileSync(config.HEX_CONFIG_PATH(), '{}')
+            fs.writeFileSync(config.HEX_CONFIG_PATH(), JSON.stringify({}))
         }
     }
 
@@ -82,8 +82,8 @@ export class Cli {
             .command(`${name} ${params}`)
             .description(description)
             .action(async (...args) => {
-                this._initCLIFS(this.P)
                 this.exec()
+                this._initCLIFS(this.P)
                 this._onStart(name)
 
                 try {

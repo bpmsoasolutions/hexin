@@ -10,7 +10,7 @@ createCLI(process.cwd())
         `[ 核心 - Hexin ]`,
         'Manage monorepos as private packages',
         packageJson.version,
-        '--test <name>|Test environment mode, this change the .hexin folder, usefull for paralelize tests'
+        '--home <name>|Change hexin cache folder'
     )
     .addCmd(addCmd)
     .addCmd(appendCmd)

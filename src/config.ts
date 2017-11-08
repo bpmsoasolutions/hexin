@@ -1,9 +1,11 @@
 import * as path from 'path'
+import * as shortid from 'shortid'
 
 export class Config {
     HEX_DIR: string = '.hexin'
     HEX_FILE: string = 'config.json'
     HEX_DEPS: string = 'hexDependencies'
+    TEST_TEMP_PATH: string
 
     HOME_PATH: string =
         process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']
@@ -20,6 +22,12 @@ export class Config {
 
     setTestHome = (name) => {
         this.HEX_DIR = name
+    }
+
+    fromHome = (...dir) => path.join(this.HOME_PATH, ...dir)
+
+    constructor(){
+        this.TEST_TEMP_PATH = `.hexin_cache_${shortid.generate()}`
     }
 }
 

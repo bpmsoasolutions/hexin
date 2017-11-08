@@ -5,9 +5,8 @@ export const output = (...msg) => {
     console.log(...msg)
 }
 
-export const start = (cmd, version) => {
-    console.log(`${chalk.green.bold('核心 hexin')} ${chalk.bold(cmd)} ${chalk.bold('v' + packageJson.version)}`)
-}
+export const header = (cmd) => `${chalk.green.bold('核心 hexin')} ${chalk.bold(cmd)} ${chalk.bold('v' + packageJson.version)}`
+export const headerClear = (cmd) => `核心 hexin ${cmd} v${packageJson.version}`
 
 export const err = (...msg) => {
     let message = `Error ${msg.join(' ')}`

@@ -26,6 +26,7 @@
         "concurrently": "^3.5.0",
         "multiview": "^2.5.3",
         "nyc": "^11.3.0",
+        "shortid": "^2.2.8",
         "trash-cli": "^1.4.0",
         "tslint": "^5.4.2",
         "tslint-config-standard": "^6.0.0",
@@ -34,18 +35,24 @@
     "scripts": {
         "build": "trash build && tsc -p tsconfig.json",
         "watch": "tsc -p tsconfig.json -w",
-        "watch:tests": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'ava -s --watch'",
-        "unit": "yarn build && nyc ava -s",
+        "watch:tests": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'ava --watch'",
+        "unit": "yarn build && nyc ava",
         "check-coverage": "nyc check-coverage --lines 40 --functions 40 --branches 40",
         "test": "yarn unit && yarn check-coverage",
         "cov": "yarn unit && yarn html-coverage && opn coverage/index.html",
         "html-coverage": "nyc report --reporter=html"
     },
     "nyc": {
-        "exclude": ["**/*.spec.js"]
+        "exclude": [
+            "**/*.spec.js"
+        ]
     },
     "ava": {
-        "files": ["build/**/*.spec.js"],
-        "source": ["build/**/*"]
+        "files": [
+            "build/**/*.spec.js"
+        ],
+        "source": [
+            "build/**/*"
+        ]
     }
 }

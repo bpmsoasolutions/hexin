@@ -13,7 +13,7 @@ test('Test cmd', async t => {
         `[ 核心 - Hexin ] v${packageJson.version} Manage monorepos as private packages`,
         `Options:`,
         `-V, --version  output the version number`,
-        `--test <name>  Test environment mode, this change the .hexin folder, usefull for paralelize tests`,
+        `--home <name>  Change hexin cache folder`,
         `-h, --help     output usage information`,
         `Commands:`,
         `add <name>             Add package "add <name>" or "add [<@scope>/]<name>" or "add [<@scope>/]<name>@<version>"`,
@@ -26,20 +26,20 @@ test('Test cmd', async t => {
 
     await spawn(null, 'trash', config.HEX_PATH())
 
-    let output = await spawn('.', 'hex')
+    let output = await spawn(null, 'hex')
         .then(output=>output, err=>err)
         .catch((err)=>err)
 
     t.deepEqual(output, [`No hexin config, creating one.`].concat(outputExpected))
 
 
-    output = await spawn('.', 'hex')
+    output = await spawn(null, 'hex')
         .then(output=>output, err=>err)
         .catch((err)=>err)
 
     t.deepEqual(output, outputExpected)
 
-    output = await spawn('.', 'hex')
+    output = await spawn(null, 'hex')
     .then(output=>output, err=>err)
     .catch((err)=>err)
 
