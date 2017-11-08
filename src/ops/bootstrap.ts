@@ -1,23 +1,35 @@
 import * as shell from 'shelljs'
 import * as path from 'path'
 
-import { readJSON, writeJSON, output, err, getGitFolder, gitCheckout, spawn } from '../helpers'
+import {
+    readJSON,
+    writeJSON,
+    output,
+    err,
+    getGitFolder,
+    gitCheckout,
+    spawn
+} from '../helpers'
 import config from '../config'
 
-const {
-    HEX_DEPS, HEX_CONFIG_PATH, hexPath
-} = config
+const { HEX_DEPS, HEX_CONFIG_PATH, hexPath } = config
 
 import { append } from './append'
 
-const copyDep = async (CWD, installedPackages, url, name, version): Promise<{}> => {
+const copyDep = async (
+    CWD,
+    installedPackages,
+    url,
+    name,
+    version
+): Promise<{}> => {
     let folder = getGitFolder(url)
     let lernaPackages = 'packages'
 
     let moduleFolder
     try {
         moduleFolder = installedPackages.repos[url][name].folder
-    } catch(e){
+    } catch (e) {
         throw `Run append, hex config corrupted. ${e}`
     }
 
@@ -28,7 +40,11 @@ const copyDep = async (CWD, installedPackages, url, name, version): Promise<{}> 
 
     output(` Copying module to monorepo`)
 
-    shell.cp('-R', hexPath('cache', folder, lernaPackages, moduleFolder), path.join(CWD, '..'))
+    shell.cp(
+        '-R',
+        hexPath('cache', folder, lernaPackages, moduleFolder),
+        path.join(CWD, '..')
+    )
 
     await gitCheckout(branch, hexPath('cache', folder))
 
@@ -36,17 +52,19 @@ const copyDep = async (CWD, installedPackages, url, name, version): Promise<{}> 
         [name]: version
     }
 }
-const copyDepsToMonorepo = (CWD, installedPackages, url, modules): Promise<{}>[] => {
-
-    return Object.keys(modules)
-        .reduce((acc, val) => {
-            acc.push(copyDep(CWD, installedPackages, url, val, modules[val]))
-            return acc
-        }, [])
+const copyDepsToMonorepo = (
+    CWD,
+    installedPackages,
+    url,
+    modules
+): Promise<{}>[] => {
+    return Object.keys(modules).reduce((acc, val) => {
+        acc.push(copyDep(CWD, installedPackages, url, val, modules[val]))
+        return acc
+    }, [])
 }
 
-export const bootstrap = async (CWD) => {
-
+export const bootstrap = async CWD => {
     output(` Reading hex packages from package.json`)
     let pkg = await readJSON(path.join(CWD, 'package.json'))
     let installedPackages = await readJSON(path.join(HEX_CONFIG_PATH()))
@@ -68,16 +86,23 @@ export const bootstrap = async (CWD) => {
 
     output(`Coping packages to monorepo`)
     let newPackages = await Promise.all(
-        Object.keys(pkg[HEX_DEPS])
-            .reduce((acc, val) => {
-                acc = [ ...acc, ...copyDepsToMonorepo(CWD, installedPackages, val, pkg[HEX_DEPS][val]) ]
-                return acc
-            }, [])
+        Object.keys(pkg[HEX_DEPS]).reduce((acc, val) => {
+            acc = [
+                ...acc,
+                ...copyDepsToMonorepo(
+                    CWD,
+                    installedPackages,
+                    val,
+                    pkg[HEX_DEPS][val]
+                )
+            ]
+            return acc
+        }, [])
     )
 
-    newPackages = newPackages.reduce((acc,val)=>{
+    newPackages = newPackages.reduce((acc, val) => {
         return Object.assign({}, acc, val)
-    },{})
+    }, {})
 
     output(`Add 'hexin packages' to package.json`)
     pkg = await readJSON(path.join(CWD, 'package.json'))
@@ -87,7 +112,13 @@ export const bootstrap = async (CWD) => {
 
     output('Bootstraping lerna and yarn')
     await spawn(path.resolve(CWD, '..', '..'), 'yarn')
-    await spawn(path.resolve(CWD, '..', '..'), 'yarn', 'run', 'lerna', 'bootstrap')
+    await spawn(
+        path.resolve(CWD, '..', '..'),
+        'yarn',
+        'run',
+        'lerna',
+        'bootstrap'
+    )
 
     output(`Remove 'hexin packages' from package.json`)
     pkg = await readJSON(path.join(CWD, 'package.json'))

@@ -2,14 +2,9 @@ import * as shell from 'shelljs'
 import * as fs from 'fs'
 
 import config from '../config'
-const {
-    HEX_CONFIG_PATH,
-    HEX_PATH,
-    HEX_PATH_CACHE
-} = config
+const { HEX_CONFIG_PATH, HEX_PATH, HEX_PATH_CACHE } = config
 
-export function initHexinFolder () {
-
+export function initHexinFolder() {
     if (!shell.test('-d', HEX_PATH())) {
         shell.mkdir(HEX_PATH())
     }

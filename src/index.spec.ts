@@ -16,7 +16,7 @@ test('Test cmd', async t => {
         `--home <name>  Change hexin cache folder`,
         `-h, --help     output usage information`,
         `Commands:`,
-        `add <name>             Add package "add <name>" or "add [<@scope>/]<name>" or "add [<@scope>/]<name>@<version>"`,
+        `add <name>             Add package from a repo, previusly downloaded`,
         `append <git_url_repo>  Download a repo to .hexin cache`,
         `bootstrap              Copy neccesary repos and make yarn and lerna bootstrap`,
         `release <env> [type]   Add new version to the releases branch`,

@@ -1,19 +1,26 @@
 import * as shell from 'shelljs'
 import * as path from 'path'
 
-import { getGitFolder, gitTag, readJSON, writeJSON, pushTag, output } from '../helpers'
+import {
+    getGitFolder,
+    gitTag,
+    readJSON,
+    writeJSON,
+    pushTag,
+    output
+} from '../helpers'
 
 export const release = async (CWD, env, type) => {
     if (env === 'node') {
         let pkgPath = path.join(CWD, 'package.json')
 
-        if(!shell.test('-e', pkgPath)){
+        if (!shell.test('-e', pkgPath)) {
             throw 'You are not in a npm module root or this is not a npm package'
         }
 
         let pkg: any = await readJSON(pkgPath)
 
-        if(!pkg.version) {
+        if (!pkg.version) {
             throw 'You are not in a valid package'
         }
 

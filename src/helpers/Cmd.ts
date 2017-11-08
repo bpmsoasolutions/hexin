@@ -24,13 +24,13 @@ export class Cli {
     define(name, description, version, ...options) {
         this.version = version
 
-        this.P
-            .version(version)
-            .description(`${chalk.green.bold(name)} ${chalk.white.bold(`v${version}`)} ${description}`)
-
-        options.forEach(opt =>
-            this.P.option(...opt.split('|'))
+        this.P.version(version).description(
+            `${chalk.green.bold(name)} ${chalk.white.bold(`v${version}`)} ${
+                description
+            }`
         )
+
+        options.forEach(opt => this.P.option(...opt.split('|')))
         return this
     }
 
@@ -38,7 +38,7 @@ export class Cli {
         this.executed = true
     }
 
-    _onStart(name){
+    _onStart(name) {
         this.startTime = new Date()
         console.log(header(name))
     }
@@ -58,7 +58,7 @@ export class Cli {
         console.log(`${msg} ${chalk.bold(secs.toString())}s`)
     }
 
-    _initCLIFS(program){
+    _initCLIFS(program) {
         if (program.home) {
             config.setTestHome(program.home)
         }
@@ -77,9 +77,8 @@ export class Cli {
         }
     }
 
-    addCmd({name, params, description, action}) {
-        this.P
-            .command(`${name} ${params}`)
+    addCmd({ name, params, description, action }) {
+        this.P.command(`${name} ${params}`)
             .description(description)
             .action(async (...args) => {
                 this.exec()
@@ -90,17 +89,16 @@ export class Cli {
                     await action(this.CWD, ...args)
                     this._onEnd()
                     process.exit(0)
-                } catch(err){
+                } catch (err) {
                     this._onEnd(err)
                     process.exit(1)
                 }
-
             })
 
         return this
     }
 
-    start(){
+    start() {
         this.P.parse(process.argv)
 
         if (!this.executed) {

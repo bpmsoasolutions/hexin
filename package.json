@@ -25,6 +25,7 @@
         "concurrently": "^3.5.0",
         "multiview": "^2.5.3",
         "nyc": "^11.3.0",
+        "prettier": "^1.8.1",
         "shortid": "^2.2.8",
         "trash-cli": "^1.4.0",
         "tslint": "^5.4.2",
@@ -39,6 +40,7 @@
         "check-coverage": "nyc check-coverage --lines 40 --functions 40 --branches 40",
         "test": "yarn unit && yarn check-coverage",
         "cov": "yarn unit && yarn html-coverage && opn coverage/index.html",
+        "pret": "prettier src/**/* --write",
         "html-coverage": "nyc report --reporter=html"
     },
     "nyc": {

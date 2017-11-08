@@ -4,7 +4,17 @@ import * as json from 'jsonfile'
 
 import config from '../config'
 
-import { getGitFolder, gitPull, gitClone, readJSON, writeJSON, spawn, output, err, readPackagesOfFolder } from '../helpers'
+import {
+    getGitFolder,
+    gitPull,
+    gitClone,
+    readJSON,
+    writeJSON,
+    spawn,
+    output,
+    err,
+    readPackagesOfFolder
+} from '../helpers'
 
 export const append = async (CWD, gitUrlRepo) => {
     let folder = getGitFolder(gitUrlRepo)
@@ -20,15 +30,30 @@ export const append = async (CWD, gitUrlRepo) => {
     }
 
     await spawn(repoPath, 'yarn', 'install')
-    await spawn(repoPath, path.join('node_modules', '.bin', 'lerna'), 'bootstrap')
-    let packages: string = await spawn(repoPath, path.join('node_modules', '.bin', 'lerna'), 'ls', '--json')
-    let packagesArray: {name: string, version: string, private: Boolean}[]
-    let outputCleaned:string
+    await spawn(
+        repoPath,
+        path.join('node_modules', '.bin', 'lerna'),
+        'bootstrap'
+    )
+    let packages: string = await spawn(
+        repoPath,
+        path.join('node_modules', '.bin', 'lerna'),
+        'ls',
+        '--json'
+    )
+    let packagesArray: { name: string; version: string; private: Boolean }[]
+    let outputCleaned: string
 
     try {
-        outputCleaned = packages.split('\n').slice(1).reverse().slice(1).reverse().join('')
+        outputCleaned = packages
+            .split('\n')
+            .slice(1)
+            .reverse()
+            .slice(1)
+            .reverse()
+            .join('')
         packagesArray = JSON.parse(outputCleaned)
-    } catch(err){
+    } catch (err) {
         throw `Cant parse output from 'lerna ls --json'.
         Output: ${packages}
         OutputCleaned: ${outputCleaned}
@@ -37,14 +62,22 @@ export const append = async (CWD, gitUrlRepo) => {
 
     let cfg = await readJSON(config.HEX_CONFIG_PATH())
 
-    if (!cfg.repos){
+    if (!cfg.repos) {
         cfg.repos = {}
     }
 
     let pkgsRead = await readPackagesOfFolder(folder)
 
-    cfg.repos[gitUrlRepo] = pkgsRead
-        .reduce((acc, val:{name:string, folder: string, parent: string, version: string}) => {
+    cfg.repos[gitUrlRepo] = pkgsRead.reduce(
+        (
+            acc,
+            val: {
+                name: string
+                folder: string
+                parent: string
+                version: string
+            }
+        ) => {
             acc[val.name] = {
                 name: val.name,
                 folder: val.folder,
@@ -52,12 +85,14 @@ export const append = async (CWD, gitUrlRepo) => {
                 version: val.version
             }
             return acc
-        },{})
+        },
+        {}
+    )
 
     await writeJSON(config.HEX_CONFIG_PATH(), cfg)
 
     output(` Packages from ${folder}:`)
-    packagesArray.forEach((el)=>{
+    packagesArray.forEach(el => {
         output(` * ${el.name} ${el.version}`)
     })
 }
