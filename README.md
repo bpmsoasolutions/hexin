@@ -14,7 +14,7 @@ The idea comes when appears the need to have all our Frontend dependencies libra
 
 - Have all our UI dependencies in a repository (monorepo)
     - This provides us control over all packages
-    - This force us to use same development flow over all tools
+    - This force us to use same development flow over all libraries
 - Have that packages secured under private git repository
 - Have defined our deps in a file, and understand how dependencies are ours
 - Typescript packages not need to be compiled
@@ -67,7 +67,7 @@ Note that after every yarn operation such add or remove you should always run `h
 
 - **append <git_url_repo>**:  Download a monorepo to .hexin cache
 
-- **bootstrap**: Copy neccesary repos wrote on package.json (download to cache if necessary), adds as dependency in package.json and then runs yarn and lerna bootstrap and at last removes packages from package.json
+- **bootstrap**: Copy necessary repos wrote on package.json (download to cache if necessary), adds as dependency in package.json and then runs yarn and lerna bootstrap and at last removes packages from package.json
 
 - **release <env> [type]**: Tag a new version of the selected package, and push the tag
 
@@ -78,8 +78,8 @@ Note that after every yarn operation such add or remove you should always run `h
 ## Todo
 
 - `hexin upgrade` to upgrade `hexin packages` to new versions
-- Wrap yarn commands to always rerun `hex bootstrap` after instalation
-- Make work `hexin packages` that are childs of other `hexin packages`
+- Wrap yarn commands to always rerun `hex bootstrap` after installation
+- Make work `hexin packages` that are children of other `hexin packages`
 - Resolve better lerna configuration, now packages folder are fixed and only work with 'packages' folder
 - Test test test
 
