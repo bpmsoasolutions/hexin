@@ -34,24 +34,18 @@
     "scripts": {
         "build": "trash build && tsc -p tsconfig.json",
         "watch": "tsc -p tsconfig.json -w",
-        "watch:tests": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'ava --watch'",
-        "unit": "yarn build && nyc ava",
+        "watch:tests": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'ava -s --watch'",
+        "unit": "yarn build && nyc ava -s",
         "check-coverage": "nyc check-coverage --lines 40 --functions 40 --branches 40",
         "test": "yarn unit && yarn check-coverage",
         "cov": "yarn unit && yarn html-coverage && opn coverage/index.html",
         "html-coverage": "nyc report --reporter=html"
     },
     "nyc": {
-        "exclude": [
-            "**/*.spec.js"
-        ]
+        "exclude": ["**/*.spec.js"]
     },
     "ava": {
-        "files": [
-            "build/**/*.spec.js"
-        ],
-        "source": [
-            "build/**/*"
-        ]
+        "files": ["build/**/*.spec.js"],
+        "source": ["build/**/*"]
     }
 }
