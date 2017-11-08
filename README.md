@@ -1,6 +1,6 @@
 # hexin :package: [![Linux Build status][travis-badge]][travis-link]
 
-hexin (Héxīn, 核心, core in chinese) is a cli that helps you tu use monorepos as private modules.
+hexin (Héxīn, 核心, core in chinese) is a cli that helps you to use monorepos as private/public container of modules.
 
 The idea comes when appears the need to have all our Frontend dependencies libraries under control, we found that the best way is using a monorepo, like lerna or a custom system, also we started to use monorepos in our projects because in that way we control better the dependencies and we can modularize our flow and projects. In addition we started to use Typescript everywhere we can, and we need also to find a way to include that Typescript without compiling it, so in that context hexin borns.
 The idea is simple:
@@ -39,7 +39,7 @@ The idea is simple:
 
 - **bootstrap**: Copy neccesary repos wrote on package.json (download to cache if neccesary), adds as dependency in package.json and then runs yarn and lerna bootstrap and at last removes packages from package.json
 
-- **release <env> [type]**: Tag a new version of the selected package
+- **release <env> [type]**: Tag a new version of the selected package, and push the tag
 
 - **unrelease**: ask to remove a git tag from the git tags list, this remove from hexin that package
 
