@@ -8,4 +8,4 @@
 */
 
 export const cleanFromYarnCMD = (string) =>
-    string.split('\n').slice(3).reverse().slice(2).reverse().join(' ')
+    string.split('\n').slice(1).reverse().slice(1).reverse().join('')

@@ -24,21 +24,14 @@ export const append = async (CWD, gitUrlRepo) => {
     }
 
     await spawn(repoPath, 'yarn')
-    await spawn(repoPath, 'yarn', 'run', 'lerna', 'bootstrap')
-    let packages: string = await spawn(repoPath, 'yarn', 'run', 'lerna', 'ls', '--json')
+    await spawn(repoPath, path.join('node_modules', '.bin', 'lerna'), 'bootstrap')
+    let packages: string = await spawn(repoPath, path.join('node_modules', '.bin', 'lerna'), 'ls', '--json')
     let packagesArray: {name: string, version: string, private: Boolean}[]
 
     try {
-
-        console.log('--')
-        console.log(packages)
-        console.log('--')
-        console.log(cleanFromYarnCMD(packages))
-        console.log('--')
-
         packagesArray = JSON.parse(cleanFromYarnCMD(packages))
     } catch(err){
-        throw `Cant parse output from 'yarn run lerna ls --json. ${err}`
+        throw `Cant parse output from yarn run lerna ls --json. ${err}`
     }
 
     let cfg = await readJSON(HEX_CONFIG_PATH())
