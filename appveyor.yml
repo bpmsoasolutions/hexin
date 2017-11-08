@@ -11,8 +11,9 @@ branches:
 
 install:
   - ps: Install-Product node $env:node_version
+  - choco install -i yarn
+  - refreshenv
   - yarn install --frozen-lockfile
-  - yarn link
   - npm link
 
 build_script:
