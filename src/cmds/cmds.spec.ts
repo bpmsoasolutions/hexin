@@ -42,8 +42,8 @@ const expectedOutputFn = () =>
             ? secondTime
             : firstTime,
         'Running: \'yarn\'',
-        'Running: \'yarn run lerna bootstrap\'',
-        'Running: \'lerna ls --json\'',
+        'Running: \'node_modules/.bin/lerna bootstrap\'',
+        'Running: \'node_modules/.bin/lerna ls --json\'',
         'Packages from hexin-modules-test:',
         '* @bss/utils 1.0.0'
     ]
