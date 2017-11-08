@@ -27,7 +27,7 @@ test('Should append', async function (t) {
                 'Repo not exists, cloning...',
                 `Running: \'git clone ${repoUrl} ${repoPath}\'`
             ],
-        'Running: \'yarn\'',
+        'Running: \'yarn install\'',
         `Running: \'node_modules/.bin/lerna bootstrap\'`,
         `Running: \'node_modules/.bin/lerna ls --json\'`,
         'Packages from hexin-modules-test:',

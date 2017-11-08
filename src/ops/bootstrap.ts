@@ -79,12 +79,18 @@ export const bootstrap = async (CWD) => {
         return Object.assign({}, acc, val)
     },{})
 
-    output(`Refreshing package.json`)
+    output(`Add 'hexin packages' to package.json`)
     pkg = await readJSON(path.join(CWD, 'package.json'))
+    let depsCache = pkg.dependencies
     pkg.dependencies = Object.assign({}, pkg.dependencies, newPackages)
     await writeJSON(path.join(CWD, 'package.json'), pkg)
 
     output('Bootstraping lerna and yarn')
     await spawn(path.resolve(CWD, '..', '..'), 'yarn')
     await spawn(path.resolve(CWD, '..', '..'), 'yarn', 'run', 'lerna', 'bootstrap')
+
+    output(`Remove 'hexin packages' from package.json`)
+    pkg = await readJSON(path.join(CWD, 'package.json'))
+    pkg.dependencies = depsCache
+    await writeJSON(path.join(CWD, 'package.json'), pkg)
 }
