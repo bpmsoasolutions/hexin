@@ -1,21 +1,15 @@
 import * as shell from 'shelljs'
 import * as path from 'path'
 import * as json from 'jsonfile'
-import * as ora from 'ora'
 
 import config from '../config'
-
-const {
-    HEX_PATH_CACHE, HEX_CONFIG_PATH
-} = config
 
 import { getGitFolder, gitPull, gitClone, readJSON, writeJSON, spawn, output, err, readPackagesOfFolder } from '../helpers'
 
 export const append = async (CWD, gitUrlRepo) => {
-    let spinner = ora('').start()
     let folder = getGitFolder(gitUrlRepo)
 
-    let repoPath = path.join(HEX_PATH_CACHE(), folder)
+    let repoPath = path.join(config.HEX_PATH_CACHE(), folder)
 
     if (shell.test('-d', repoPath)) {
         output(' Repo already exists, pulling...')
@@ -41,7 +35,7 @@ export const append = async (CWD, gitUrlRepo) => {
         Err: ${err}`
     }
 
-    let cfg = await readJSON(HEX_CONFIG_PATH())
+    let cfg = await readJSON(config.HEX_CONFIG_PATH())
 
     if (!cfg.repos){
         cfg.repos = {}
@@ -60,7 +54,7 @@ export const append = async (CWD, gitUrlRepo) => {
             return acc
         },{})
 
-    await writeJSON(HEX_CONFIG_PATH(), cfg)
+    await writeJSON(config.HEX_CONFIG_PATH(), cfg)
 
     output(` Packages from ${folder}:`)
     packagesArray.forEach((el)=>{

@@ -2,10 +2,6 @@ import * as path from 'path'
 import { getGitFolder, output, err, readJSON, writeJSON } from '../helpers'
 import config from '../config'
 
-const {
-    HEX_DEPS, HEX_CONFIG_PATH
-} = config
-
 export const add = async (CWD, pkg:string) => {
     let scope = pkg.match('\@(.*?)\/')
     let [mod, version] = scope
@@ -16,7 +12,7 @@ export const add = async (CWD, pkg:string) => {
 
     let fullModuleName = `${scope?scope[0]:''}${mod}`
 
-    let hexCfg = await readJSON(HEX_CONFIG_PATH())
+    let hexCfg = await readJSON(config.HEX_CONFIG_PATH())
 
     if (!hexCfg.repos){
         throw 'Something was wrong, hex file corrupted'
@@ -47,20 +43,20 @@ export const add = async (CWD, pkg:string) => {
     output(` Adding dependency to package.json`)
     let pack = await readJSON(path.join(CWD, 'package.json'))
 
-    if (!pack[HEX_DEPS]){
-        pack[HEX_DEPS] = {}
+    if (!pack[config.HEX_DEPS]){
+        pack[config.HEX_DEPS] = {}
     }
 
-    if (!pack[HEX_DEPS]){
-        pack[HEX_DEPS][(foundRepoModuleVersion as any).url] = {}
+    if (!pack[config.HEX_DEPS]){
+        pack[config.HEX_DEPS][(foundRepoModuleVersion as any).url] = {}
     }
 
     let newPkg = {
         [fullModuleName]: version
     }
 
-    pack[HEX_DEPS][(foundRepoModuleVersion as any).url] = Object.assign({},
-        pack[HEX_DEPS][(foundRepoModuleVersion as any).url],
+    pack[config.HEX_DEPS][(foundRepoModuleVersion as any).url] = Object.assign({},
+        pack[config.HEX_DEPS][(foundRepoModuleVersion as any).url],
         newPkg
     )
 
