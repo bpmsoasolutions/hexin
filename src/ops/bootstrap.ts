@@ -67,14 +67,12 @@ const copyDepsToMonorepo = (
 export const bootstrap = async CWD => {
     output(` Reading hex packages from package.json`)
     let pkg = await readJSON(path.join(CWD, 'package.json'))
-    let installedPackages = await readJSON(path.join(HEX_CONFIG_PATH()))
 
     if (!pkg[HEX_DEPS]) {
         throw `Nothing to bootstrap`
     }
 
     output(` Refreshing repositories`)
-
     let gitUrls = Object.keys(pkg[HEX_DEPS])
 
     await Promise.all(
@@ -83,6 +81,8 @@ export const bootstrap = async CWD => {
             return append(CWD, url)
         })
     )
+
+    let installedPackages = await readJSON(HEX_CONFIG_PATH())
 
     output(`Coping packages to monorepo`)
     let newPackages = await Promise.all(

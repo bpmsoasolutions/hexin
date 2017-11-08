@@ -3,7 +3,7 @@ import * as shell from 'shelljs'
 import { test } from 'ava'
 
 import { spawn } from '../helpers/spawn-test'
-import { getGitFolder, packageJson, writeJSON, headerClear } from '../helpers'
+import { getGitFolder, packageJson, writeJSON, headerClear, outputPaths } from '../helpers'
 
 import config from '../config'
 
@@ -26,8 +26,8 @@ test('Should append', async function(t) {
                   `Running: \'git clone ${repoUrl} ${repoPath}\'`
               ]),
         "Running: 'yarn install'",
-        `Running: \'node_modules/.bin/lerna bootstrap\'`,
-        `Running: \'node_modules/.bin/lerna ls --json\'`,
+        `Running: \'${outputPaths('node_modules', '.bin', 'lerna')} bootstrap\'`,
+        `Running: \'${outputPaths('node_modules', '.bin', 'lerna')} ls --json\'`,
         'Packages from hexin-modules-test:',
         '* @bss/utils 1.0.0'
     ]

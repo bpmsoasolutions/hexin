@@ -2,13 +2,14 @@ import * as fs from 'fs'
 
 export const writeFile = (path, string) =>
     new Promise((resolve, reject) =>
-        fs.writeFile(path, string, err => (err ? reject(err) : resolve()))
+        fs.writeFile(path, string, 'utf8', err => (err ? reject(err) : resolve()))
     )
 
 export const readFile = path =>
     new Promise((resolve, reject) =>
         fs.readFile(
             path,
+            'utf8',
             (err, string) => (err ? reject(err) : resolve(string))
         )
     )

@@ -30,7 +30,7 @@ export const cleanCmd = {
 
 export const releaseCmd = {
     name: 'release',
-    params: '<env> [type]',
+    params: '',
     description: 'Add new version to the releases branch',
     action: release
 }

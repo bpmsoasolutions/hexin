@@ -19,7 +19,7 @@ test('Test cmd', async t => {
         `add <name>             Add package from a repo, previusly downloaded`,
         `append <git_url_repo>  Download a repo to .hexin cache`,
         `bootstrap              Copy neccesary repos and make yarn and lerna bootstrap`,
-        `release <env> [type]   Add new version to the releases branch`,
+        `release                Add new version to the releases branch`,
         `unrelease              Remove specific tags`,
         `clean                  Clean directories and package json`
     ]

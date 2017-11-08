@@ -24,7 +24,7 @@ let addOutput = [
 
 let addExpectedHexPackages = {
     hexDependencies: {
-        'https://github.com/bpmsoasolutions/hexin-modules-test.git': {
+        [repoUrl]: {
             '@bss/utils': '1.0.0'
         }
     }
