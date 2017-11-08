@@ -1,4 +1,4 @@
-# hexin :package: [![Linux Build status][travis-badge]][travis-link]
+# hexin :package: [![Linux Build status][travis-badge]][travis-link] [![Windows Build status][appveyor-badge]][appveyor-link]
 
 hexin (Héxīn, 核心, core in chinese) is a cli that helps you to use monorepos as private/public container of modules.
 
@@ -57,3 +57,5 @@ The idea is simple:
 
 [travis-badge]: https://img.shields.io/travis/bpmsoasolutions/hexin.svg?style=flat-square&label=linux
 [travis-link]: https://travis-ci.org/bpmsoasolutions/hexin
+[appveyor-badge]: https://img.shields.io/appveyor/ci/bss-ruben-fernandez/hexin.svg?style=flat-square&label=windows
+[appveyor-link]: https://ci.appveyor.com/project/bss-ruben-fernandez/hexin
