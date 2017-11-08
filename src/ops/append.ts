@@ -19,7 +19,7 @@ export const append = async (CWD, gitUrlRepo) => {
         await gitClone(gitUrlRepo, repoPath)
     }
 
-    await spawn(repoPath, 'yarn')
+    await spawn(repoPath, 'yarn', 'install')
     await spawn(repoPath, path.join('node_modules', '.bin', 'lerna'), 'bootstrap')
     let packages: string = await spawn(repoPath, path.join('node_modules', '.bin', 'lerna'), 'ls', '--json')
     let packagesArray: {name: string, version: string, private: Boolean}[]
