@@ -8,7 +8,7 @@ const {
     HEX_PATH_CACHE, HEX_CONFIG_PATH
 } = config
 
-import { getGitFolder, gitPull, gitClone, readJSON, writeJSON, spawn, output, err, readPackagesOfFolder, cleanFromYarnCMD } from '../helpers'
+import { getGitFolder, gitPull, gitClone, readJSON, writeJSON, spawn, output, err, readPackagesOfFolder } from '../helpers'
 
 export const append = async (CWD, gitUrlRepo) => {
     let folder = getGitFolder(gitUrlRepo)
