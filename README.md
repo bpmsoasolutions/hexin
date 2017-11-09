@@ -9,7 +9,7 @@ $ hex
 
   Usage: hex [options] [command]
 
-  [ 核心 - Hexin ] v0.1.1 Manage monorepos as private packages
+  [ 核心 - Hexin ] v0.9.0 Manage monorepos as private packages
 
 
   Options:
@@ -34,6 +34,16 @@ $ hex
 - NodeJS >= 4.0
 - Yarn >= 1.0.0
 - Git
+
+## Installation
+
+Install with npm like normally:
+
+```
+npm install -g @bpmsoasolutions/hexinpkg
+```
+
+Then you will have `hex` and `hexpkg` binaries accesible
 
 ## Needs
 

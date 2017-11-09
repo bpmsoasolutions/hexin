@@ -1,6 +1,6 @@
 {
-    "name": "hexinpkg",
-    "version": "0.1.1",
+    "name": "@bpmsoasolutions/hexinpkg",
+    "version": "0.9.0",
     "description": "Manage monorepos as private packages",
     "main": "src/index.js",
     "author": "BSS <info@bpmsoasolutions.com>",
