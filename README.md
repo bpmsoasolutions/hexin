@@ -69,7 +69,7 @@ Note that after every yarn operation such add or remove you should always run `h
 
 - **bootstrap**: Copy necessary repos wrote on package.json (download to cache if necessary), adds as dependency in package.json and then runs yarn and lerna bootstrap and at last removes packages from package.json
 
-- **release <env> [type]**: Tag a new version of the selected package, and push the tag
+- **release**: Tag a new version of the selected package, and push the tag
 
 - **unrelease**: ask to remove a git tag from the git tags list, this remove from hexin that package
 
