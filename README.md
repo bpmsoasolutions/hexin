@@ -4,6 +4,31 @@ hexin (Héxīn, 核心, core in chinese) is a cli that helps you to use monorepo
 
 The idea comes when appears the need to have all our Frontend dependencies libraries under control, we found that the best way is using a monorepo, like lerna or a custom system, also we started to use monorepos in our projects because in that way we control better the dependencies and we can split in modules our flow and projects. In addition we started to use Typescript everywhere we can, and we need also to find a way to include that Typescript without compiling it, so in that context hexin born.
 
+```
+$ hex
+
+  Usage: hex [options] [command]
+
+  [ 核心 - Hexin ] v0.1.1 Manage monorepos as private packages
+
+
+  Options:
+
+    -V, --version  output the version number
+    --home <name>  Change hexin cache folder
+    -h, --help     output usage information
+
+
+  Commands:
+
+    add <name>             Add package from a repo, previusly downloaded
+    append <git_url_repo>  Download a repo to .hexin cache
+    bootstrap              Copy neccesary repos and make yarn and lerna bootstrap
+    release                Add new version to the releases branch
+    unrelease              Remove specific tags
+    clean                  Clean directories and package json
+```
+
 ## Prerequisites
 
 - NodeJS >= 4.0
