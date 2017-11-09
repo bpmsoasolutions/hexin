@@ -17,6 +17,7 @@
         "inquirer": "^3.3.0",
         "shelljs": "^0.7.8",
         "tslib": "^1.8.0",
+        "shortid": "^2.2.8",
         "update-notifier": "^2.3.0"
     },
     "devDependencies": {
@@ -26,7 +27,6 @@
         "multiview": "^2.5.3",
         "nyc": "^11.3.0",
         "prettier": "^1.8.1",
-        "shortid": "^2.2.8",
         "trash-cli": "^1.4.0",
         "tslint": "^5.4.2",
         "tslint-config-standard": "^6.0.0",
