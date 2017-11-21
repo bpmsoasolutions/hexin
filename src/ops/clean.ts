@@ -5,7 +5,7 @@ import config from '../config'
 
 const { HEX_DEPS, HEX_PATH } = config
 
-export const clean = async CWD => {
+export const clean = async ({ CWD }) => {
     let packagePath = path.join(CWD, 'package.json')
 
     if (!shell.test('-e', packagePath)) {

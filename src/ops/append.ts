@@ -16,7 +16,7 @@ import {
     readPackagesOfFolder
 } from '../helpers'
 
-export const append = async (CWD, gitUrlRepo) => {
+export const append = async ({ CWD }, gitUrlRepo) => {
     let folder = getGitFolder(gitUrlRepo)
 
     let repoPath = path.join(config.HEX_PATH_CACHE(), folder)

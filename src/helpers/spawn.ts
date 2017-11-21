@@ -1,5 +1,29 @@
 import * as shell from 'shelljs'
+import * as path from 'path'
 import { output, err } from './'
+
+export const spw = (cwd='.', { verbose }={ verbose: false }, ...args ): Promise<string[]> =>
+    new Promise((resolve, reject) => {
+        let cmd = args.join(' ')
+        let child = shell
+            .cd(cwd)
+            .exec(cmd, { async: true, silent: !verbose })
+
+        let buffer = []
+        child.stderr.on('data', (chunk) => {
+            buffer.push(chunk.toString())
+        })
+        child.stdout.on('data', (chunk) => {
+            buffer.push(chunk.toString())
+        })
+        child.on('close', (code) => {
+            if (code) {
+                reject(output || `Process failed: ${code}`)
+            } else {
+                resolve(buffer)
+            }
+        })
+    })
 
 export const sp = (
     cwd: string | null = null,
@@ -9,7 +33,7 @@ export const sp = (
     new Promise((resolve, reject) => {
         let cmd = args.length > 0 ? `${exe} ${args.join(' ')}` : `${exe}`
 
-        output(` Running: '${cmd}'`)
+        output(` Running: '${cmd}' in ${cwd}`)
         let child =
             cwd || cwd !== '.'
                 ? shell.cd(cwd).exec(cmd, { async: true, silent: true })

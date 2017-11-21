@@ -10,7 +10,7 @@ import {
     err
 } from '../helpers'
 
-export const unrelease = async (CWD, env, type) => {
+export const unrelease = async ({ CWD }, env, type) => {
     let tags = await getTags(CWD)
 
     if (tags.length === 0 || !tags) {

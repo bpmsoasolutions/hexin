@@ -2,7 +2,7 @@ import * as path from 'path'
 import { getGitFolder, output, err, readJSON, writeJSON } from '../helpers'
 import config from '../config'
 
-export const add = async (CWD, pkg: string) => {
+export const add = async ({ CWD }, pkg: string) => {
     let scope = pkg.match('@(.*?)/')
     let [mod, version] = scope
         ? pkg.slice(scope[0].length).split('@')

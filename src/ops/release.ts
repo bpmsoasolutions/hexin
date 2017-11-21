@@ -10,7 +10,7 @@ import {
     output
 } from '../helpers'
 
-export const release = async (CWD) => {
+export const release = async ({ CWD }) => {
 
     let pkgPath = path.join(CWD, 'package.json')
 

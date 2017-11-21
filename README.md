@@ -73,6 +73,7 @@ The idea is simple, is like a nodejs package manager that takes the packages fro
 - Once you finished a packages, to mark as an 'hexin package' use `hex release` command:
     - This put a '<name>@<version>' as a git tag
     - Push the tag to your 'hexin packages' monorepo
+- Should exists a task in the root to build all modules, called `build`
 - Congrats now you have your packages 'published'
 
 ### For develop the app
@@ -88,6 +89,13 @@ The idea is simple, is like a nodejs package manager that takes the packages fro
         }
     }
     ```
+- Then run `hex bootstrap` that:
+    - Reads 'hexDependencies'
+    - If the repo is not in the cache, it git clone else it pull the last version
+    - Then checkout the `name@version` selected and copy the folder to the destination monorepo
+    - Add it to the package.json of the destination repo
+    - The runs `yarn` and `lerna bootstrap`
+    - Then removes the package from
 - Also it copy the directory of that module from the cache of your 'hexin packages' monorepo, to the destination monorepo as a package.
 - Then run `hex bootstrap` this run yarn and lerna and then remove the hexin packages from the package.json, in this way you can normally work and add packages with yarn.
 

@@ -5,7 +5,7 @@ export const writeFile = (path, string) =>
         fs.writeFile(path, string, 'utf8', err => (err ? reject(err) : resolve()))
     )
 
-export const readFile = path =>
+export const readFile = (path:string): Promise<string> =>
     new Promise((resolve, reject) =>
         fs.readFile(
             path,
@@ -14,7 +14,7 @@ export const readFile = path =>
         )
     )
 
-export const readJSON = async path => {
+export const readJSON = async (path:string): Promise<any> => {
     let string = await readFile(path)
     return JSON.parse(string as string)
 }

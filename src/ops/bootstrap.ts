@@ -4,11 +4,14 @@ import * as path from 'path'
 import {
     readJSON,
     writeJSON,
+    readFile,
+    writeFile,
     output,
     err,
     getGitFolder,
     gitCheckout,
-    spawn
+    spawn,
+    spw
 } from '../helpers'
 import config from '../config'
 
@@ -43,13 +46,25 @@ const copyDep = async (
     shell.cp(
         '-R',
         hexPath('cache', folder, lernaPackages, moduleFolder),
-        path.join(CWD, '..')
+        path.resolve(CWD, '..')
     )
+
+    let gitignore = []
+    try {
+        let cache = await readFile(path.resolve(CWD, '..', '..', '.gitignore'))
+        gitignore = cache.split('\n')
+    } catch(err) {
+    }
+
+    if (gitignore.indexOf([lernaPackages, moduleFolder].join('/')) === -1) {
+        gitignore.push([lernaPackages, moduleFolder].join('/'))
+        await writeFile(path.resolve(CWD, '..', '..', '.gitignore'), gitignore.join('\n'))
+    }
 
     await gitCheckout(branch, hexPath('cache', folder))
 
     return {
-        [name]: version
+        [name]: `^${version}`
     }
 }
 const copyDepsToMonorepo = (
@@ -64,7 +79,7 @@ const copyDepsToMonorepo = (
     }, [])
 }
 
-export const bootstrap = async CWD => {
+export const bootstrap = async ({ CWD, program }) => {
     output(` Reading hex packages from package.json`)
     let pkg = await readJSON(path.join(CWD, 'package.json'))
 
@@ -110,18 +125,16 @@ export const bootstrap = async CWD => {
     pkg.dependencies = Object.assign({}, pkg.dependencies, newPackages)
     await writeJSON(path.join(CWD, 'package.json'), pkg)
 
-    output('Bootstraping lerna and yarn')
-    await spawn(path.resolve(CWD, '..', '..'), 'yarn')
-    await spawn(
+    output('Bootstraping yarn workspaces')
+    await spw(
         path.resolve(CWD, '..', '..'),
+        program,
         'yarn',
-        'run',
-        'lerna',
-        'bootstrap'
+        'install'
     )
 
-    output(`Remove 'hexin packages' from package.json`)
-    pkg = await readJSON(path.join(CWD, 'package.json'))
-    pkg.dependencies = depsCache
-    await writeJSON(path.join(CWD, 'package.json'), pkg)
+    // output(`Remove 'hexin packages' from package.json`)
+    // pkg = await readJSON(path.join(CWD, 'package.json'))
+    // pkg.dependencies = depsCache
+    // await writeJSON(path.join(CWD, 'package.json'), pkg)
 }

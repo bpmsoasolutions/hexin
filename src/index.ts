@@ -10,7 +10,8 @@ createCLI(process.cwd())
         `[ 核心 - Hexin ]`,
         'Manage monorepos as private packages',
         packageJson.version,
-        '--home <name>|Change hexin cache folder'
+        '--home <name>|Change hexin cache folder',
+        '--verbose|Change hexin cache folder'
     )
     .addCmd(addCmd)
     .addCmd(appendCmd)

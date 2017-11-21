@@ -86,7 +86,7 @@ export class Cli {
                 this._onStart(name)
 
                 try {
-                    await action(this.CWD, ...args)
+                    await action({ CWD: this.CWD, program: this.P }, ...args)
                     this._onEnd()
                     process.exit(0)
                 } catch (err) {

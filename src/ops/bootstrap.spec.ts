@@ -37,13 +37,16 @@ test('Should bootstrap', async function(t) {
         'Coping packages to monorepo',
         'Running: \'git branch\'',
         'Running: \'git checkout @bss/utils@1.0.0\'',
+        'Running: \'yarn\'',
+        `Running: \'${outputPaths('node_modules', '.bin', 'lerna')} bootstrap\'`,
+        `Running: \'${outputPaths('node_modules', '.bin', 'lerna')} run build\'`,
         'Copying module to monorepo',
         'Running: \'git checkout master\'',
         'Add \'hexin packages\' to package.json',
         'Bootstraping lerna and yarn',
         'Running: \'yarn\'',
-        'Running: \'yarn run lerna bootstrap\'',
-        'Remove \'hexin packages\' from package.json'
+        `Running: \'${outputPaths('node_modules', '.bin', 'lerna')} bootstrap\'`
+        // 'Remove \'hexin packages\' from package.json'
     ]
 
     shell.mkdir(config.fromHome(hexHomeTest))
@@ -61,7 +64,7 @@ test('Should bootstrap', async function(t) {
 
     let packageJSONProyect = await readJSON(config.fromHome(hexHomeTest, '_test', 'packages', 'core', 'package.json'))
 
-    t.true(Object.keys(packageJSONProyect.dependencies).indexOf('@bss/utils') === -1)
+    t.true(Object.keys(packageJSONProyect.dependencies).indexOf('@bss/utils') > -1)
     t.true(Object.keys(packageJSONProyect[config.HEX_DEPS][repoUrl]).indexOf('@bss/utils') > -1)
     t.true(shell.test('-d', config.fromHome(hexHomeTest, '_test', 'packages', 'test-utils')))
     t.true(shell.test('-d', config.fromHome(hexHomeTest, '_test', 'node_modules', '@bss', 'utils')))
